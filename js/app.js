@@ -7,6 +7,7 @@ var imageOneEl = document.getElementById('image-1');
 var imageTwoEl = document.getElementById('image-2');
 var imageThreeEl = document.getElementById('image-3');
 var divEl = document.getElementById('image-container');
+var listEl = document.getElementById('list');
 
 //Tracks how many times a user has clicked on images
 var clickTracker = 25;
@@ -17,10 +18,11 @@ function Products(name, src){
   this.src = src;
   this.clicked = 0;
 
+
   allProducts.push(this);
 }
 
-//Create algorithm that will randomly generate 3 unique product images from the image directory and dsiplay them side by side in the browser.
+
 //randomizer function
 function randomizer(max){
   return Math.floor(Math.random() * max);
@@ -43,6 +45,15 @@ function imageGenerator(){
 
   imageThreeEl.src = allProducts[pic3].src;
   imageThreeEl.title = allProducts[pic3].title;
+}
+
+function productList() {
+  for (var i = 0; i < allProducts.length; i++) {
+    var listResult = document.createElement('li');
+    listResult.textContent = `${allProducts[i].name.toLowerCase()}: ${allProducts[i].clicked} votes`;
+    listEl.appendChild(listResult);
+    console.log(listResult);
+  }
 }
 
 //removes event listener when user clicks 25 times from clickTracker
@@ -85,9 +96,9 @@ function handleClick(event){
   }
   clickTracker--;
 
-
   if(clickTracker === 0){
     stopClicking();
+    productList();
   }
   imageGenerator();
 }
