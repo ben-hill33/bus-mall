@@ -1,6 +1,7 @@
 'use strict';
 
 var allProducts = [];
+var noImgRepeat = [];
 
 // creates link to DOM elements
 var imageOneEl = document.getElementById('image-1');
@@ -29,13 +30,20 @@ function randomizer(max){
 }
 
 //creates a function that picks 3 numbers and randomly generate
+//while loops will prevent the same image from showing up twice in one vote or subsequent votes
 function imageGenerator(){
   var pic1 = randomizer(allProducts.length);
-  console.log(pic1);
+  while (pic1 === noImgRepeat[0] || pic1 === noImgRepeat[1] || pic1 === noImgRepeat[2]){
+    pic1 = randomizer(allProducts.length);
+  }
   var pic2 = randomizer(allProducts.length);
-  console.log(pic2);
+  while (pic2 === pic1 || pic2 === noImgRepeat[0] || pic2 === noImgRepeat[1] || pic2 === noImgRepeat[2]){
+    pic2 = randomizer(allProducts.length);
+  }
   var pic3 = randomizer(allProducts.length);
-  console.log(pic3);
+  while (pic3 === pic2 || pic3 === noImgRepeat[0] || pic3 === noImgRepeat[1] || pic3 === noImgRepeat[2]){
+    pic3 = randomizer(allProducts.length);
+  }
 
   imageOneEl.src = allProducts[pic1].src;
   imageOneEl.title = allProducts[pic1].name;
@@ -45,6 +53,10 @@ function imageGenerator(){
 
   imageThreeEl.src = allProducts[pic3].src;
   imageThreeEl.title = allProducts[pic3].title;
+
+  noImgRepeat[0] = pic1;
+  noImgRepeat[1] = pic2;
+  noImgRepeat[2] = pic3;
 }
 
 function productList() {
