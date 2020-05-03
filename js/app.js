@@ -2,6 +2,7 @@
 
 var allProducts = [];
 var noImgRepeat = [];
+// var lastViewArr = [];
 
 // creates link to DOM elements
 var imageOneEl = document.getElementById('image-1');
@@ -14,11 +15,11 @@ var listEl = document.getElementById('list');
 var clickTracker = 25;
 
 //Constructor function
-function Products(name, src) {
+function Products(name, src, clicked = 0, viewed = 0) {
   this.name = name;
   this.src = src;
-  this.clicked = 0;
-  this.viewed = 0;
+  this.clicked = clicked;
+  this.viewed = viewed;
 
   allProducts.push(this);
 }
@@ -27,6 +28,46 @@ function Products(name, src) {
 //randomizer function
 function randomizer(max) {
   return Math.floor(Math.random() * max);
+}
+
+//saves data to local storage
+function saveLocalStorage() {
+  var savedImage = JSON.stringify(allProducts);
+  localStorage.setItem('data', savedImage);
+}
+
+//check to see if there's stuff in local storage. if there is, grab it and use that data
+//if local storage is empty, proceed as if it's the first time
+function loadLocalStorage() {
+  if (localStorage.getItem('data')) {
+    var localStorageImage = JSON.parse(localStorage.getItem('data'));
+    for (var i = 0; i < localStorageImage.length; i++) {
+      new Products(localStorageImage[i].name, localStorageImage[i].src, localStorageImage[i].clicked, localStorageImage[i].viewed);
+    }
+  }
+  else {
+    new Products('R2D2 Bag', 'img/bag.jpg');
+    new Products('Banana Slicer', 'img/banana.jpg');
+    new Products('Tablet/TP Dock', 'img/bathroom.jpg');
+    new Products('Wet-toe Rainboots', 'img/boots.jpg');
+    new Products('Breakfast Station', 'img/breakfast.jpg');
+    new Products('Meatball Bubblegum', 'img/bubblegum.jpg');
+    new Products('Non-comfort Chair', 'img/chair.jpg');
+    new Products('Lovecraft Child', 'img/cthulhu.jpg');
+    new Products('Dog McDuck', 'img/dog-duck.jpg');
+    new Products('Canned Dragon-cuisine', 'img/dragon.jpg');
+    new Products('Pen-cap Meal Ready', 'img/pen.jpg');
+    new Products('Floor Clean Shoes', 'img/pet-sweep.jpg');
+    new Products('Pizza Slice Scissors', 'img/scissors.jpg');
+    new Products('Shark Sleeping Bag', 'img/shark.jpg');
+    new Products('Infant Floor Tool', 'img/sweep.png');
+    new Products('Tauntaun Guts Blanket', 'img/tauntaun.jpg');
+    new Products('Unicorn Cuisine', 'img/unicorn.jpg');
+    new Products('Cthulhu Mouth USB', 'img/usb.gif');
+    new Products('Self-watering Water-can', 'img/water-can.jpg');
+    new Products('Easy-fill Wine-glass', 'img/wine-glass.jpg');
+  }
+  imageGenerator();
 }
 
 //creates a function that picks 3 numbers and randomly generate
@@ -64,6 +105,7 @@ function imageGenerator() {
 
 }
 
+//renders list in my aside element
 function productList() {
   for (var i = 0; i < allProducts.length; i++) {
     var listResult = document.createElement('li');
@@ -85,7 +127,7 @@ function seedChartData() {
   var labelArray = [];
   var viewedArray = [];
 
-  for (var i = 0; i < allProducts.length; i++){
+  for (var i = 0; i < allProducts.length; i++) {
     clickArray.push(allProducts[i].clicked);
     labelArray.push(allProducts[i].name);
     viewedArray.push(allProducts[i].viewed);
@@ -155,26 +197,6 @@ function renderChart() {
   });
 }
 
-new Products('R2D2 Bag', 'img/bag.jpg');
-new Products('Banana Slicer', 'img/banana.jpg');
-new Products('Tablet/TP Dock', 'img/bathroom.jpg');
-new Products('Wet-toe Rainboots', 'img/boots.jpg');
-new Products('Breakfast Station', 'img/breakfast.jpg');
-new Products('Meatball Bubblegum', 'img/bubblegum.jpg');
-new Products('Non-comfort Chair', 'img/chair.jpg');
-new Products('Lovecraft Child', 'img/cthulhu.jpg');
-new Products('Dog McDuck', 'img/dog-duck.jpg');
-new Products('Canned Dragon-cuisine', 'img/dragon.jpg');
-new Products('Pen-cap Meal Ready', 'img/pen.jpg');
-new Products('Floor Clean Shoes', 'img/pet-sweep.jpg');
-new Products('Pizza Slice Scissors', 'img/scissors.jpg');
-new Products('Shark Sleeping Bag', 'img/shark.jpg');
-new Products('Infant Floor Tool', 'img/sweep.png');
-new Products('Tauntaun Guts Blanket', 'img/tauntaun.jpg');
-new Products('Unicorn Cuisine', 'img/unicorn.jpg');
-new Products('Cthulhu Mouth USB', 'img/usb.gif');
-new Products('Self-watering Water-can', 'img/water-can.jpg');
-new Products('Easy-fill Wine-glass', 'img/wine-glass.jpg');
 
 // Attach an event listener
 function handleClick(event) {
@@ -193,9 +215,10 @@ function handleClick(event) {
     productList();
     renderChart();
   }
+  saveLocalStorage();
   imageGenerator();
 }
 
 divEl.addEventListener('click', handleClick);
 
-imageGenerator();
+loadLocalStorage();
