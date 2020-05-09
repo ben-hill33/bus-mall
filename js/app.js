@@ -2,7 +2,6 @@
 
 var allProducts = [];
 var noImgRepeat = [];
-// var lastViewArr = [];
 
 // creates link to DOM elements
 var imageOneEl = document.getElementById('image-1');

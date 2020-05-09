@@ -1,15 +1,11 @@
-/* * {
-  outline-style: dashed;
-  outline-color: brown;
-} */
-
-
+/* All selectors with element as the name are self explanatory */
 header {
   border-style: solid;
   border-width: thick;
   margin: 20px;
   padding: 10px;
 }
+
 h1 {
   font-size: xx-large;
 }
@@ -35,13 +31,6 @@ h3 {
   margin: 20px;
 }
 
-#voteheader {
-  border-style: solid;
-  border-width: thick;
-  text-align: center;
-  font-size: x-large;
-}
-
 main {
   width: 944px;
   margin-left: 240px;
@@ -55,6 +44,15 @@ img {
   border-style: solid;
 }
 
+/* Styles for the aside header */
+#voteheader {
+  border-style: solid;
+  border-width: thick;
+  text-align: center;
+  font-size: x-large;
+}
+
+/* Styles for where the images render so they're not their actual size */
 #image-container {
   border-width: thick;
   border-style: solid;
@@ -82,6 +80,7 @@ footer {
   position: relative;
 }
 
+/* This is to keep the footer down below the other elements when the voting session is over and the area where the pictures render shrinks */
 .staystill {
   height: 300px;
   clear: both;
